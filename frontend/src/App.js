@@ -1,13 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Domains from './pages/Domains';
-import Feedback from './pages/Feedback';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Domains from "./pages/Domains";
+import Feedback from "./pages/Feedback";
+import Navbar from "./components/Navbar"; // Import the Navbar component
 
-//comments added 
 function App() {
   return (
     <Router>
+      <Navbar /> {/* Add the Navbar here */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/domains" element={<Domains />} />

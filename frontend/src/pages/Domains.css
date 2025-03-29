@@ -1,0 +1,92 @@
+.domains-container {
+    padding: 2rem;
+    background: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  .page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+  
+  .category-section {
+    margin-bottom: 3rem;
+    transition: all 0.3s ease;
+  }
+  
+  .category-title {
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .category-title:hover {
+    color: #3498db;
+  }
+  
+  .cards-container {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    max-height: 0;
+  }
+  
+  .cards-container.expanded {
+    opacity: 1;
+    max-height: 1000px; /* Adjust based on content */
+  }
+  
+  .glass-card {
+    flex: 0 0 auto;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: center;
+  }
+  
+  .glass-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+  }
+  
+  .script-title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  
+  .script-description {
+    font-size: 1rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+  }
+  
+  .download-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+  
+  .download-button:hover {
+    background: #2980b9;
+  }
