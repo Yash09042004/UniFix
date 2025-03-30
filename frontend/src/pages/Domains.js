@@ -1,74 +1,77 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Loader from "../components/Loader";
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
 import "./Domains.css";
 
 const Domains = () => {
-  const [scripts, setScripts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [expandedCategory, setExpandedCategory] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/scripts")
-      .then((response) => {
-        setScripts(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+  const categories = [
+    { name: "Memory", image: "https://weishielectronics.com/wp-content/uploads/2024/05/memory-chip-is-hardware-1024x531.webp" },
+    { name: "Labs", image: "https://static.vecteezy.com/system/resources/previews/032/939/325/large_2x/futuristic-computer-lab-with-bright-blue-lighting-free-photo.jpg" },
+    { name: "Drivers", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRH2MZoYH53RRrm9UvNEBdB4dvpCQRjkqzfg&s" },
+    { name: "Tools", image: "https://lib.spline.design/thumbnails/7b184106-4b3e-48cd-8df3-31d61eb5ab2e" },
+    { name: "Softwares", image: "https://i.ytimg.com/vi/Om4vQgsyv5c/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDfEnKGnFmzOQ2l85K4kCjd2ksM5Q" },
+    { name: "Docker", image: "https://w7.pngwing.com/pngs/778/570/png-transparent-docker-logo-logo-software-docker-3d-icon-thumbnail.png" },
+  ];
+
+  const particlesInit = useCallback(async (engine) => {
+    console.log(engine); // Debugging: Log the engine
+    await loadFull(engine); // Correctly load the tsparticles engine
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
+  const particlesOptions = {
+    background: {
+      color: "#1e1f26",
+    },
+    particles: {
+      color: {
+        value: ["#03dac6", "#ff0266", "#000000"],
+      },
+      links: {
+        enable: true,
+        color: "#ffffff",
+        distance: 150,
+      },
+      move: {
+        enable: true,
+        speed: 2,
+      },
+      number: {
+        value: 50,
+      },
+      size: {
+        value: 3,
+      },
+    },
+  };
 
-  // Group scripts by category
-  const categories = ["Memory", "LAB", "DRIVERS", "TOOLS", "SOFTWARES"];
-  const groupedScripts = categories.map((category) => ({
-    category,
-    scripts: scripts.filter((script) => script.category === category),
-  }));
-
-  const toggleCategory = (category) => {
-    setExpandedCategory(expandedCategory === category ? null : category);
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/domains/${categoryName.toLowerCase()}`);
   };
 
   return (
-    <div className="domains-container">
-      <h1 className="page-title">Available Scripts</h1>
-      {groupedScripts.map(({ category, scripts }) => (
-        <section key={category} className="category-section">
-          <h2
-            className="category-title"
-            onClick={() => toggleCategory(category)}
-          >
-            {category}
-          </h2>
+    <div className="domains-page">
+      <Particles className="background" init={particlesInit} options={particlesOptions} />
+      <h1 className="domains-title">Explore Domains</h1>
+      <div className="categories-container">
+        {categories.map((category) => (
           <div
-            className={`cards-container ${
-              expandedCategory === category ? "expanded" : "collapsed"
-            }`}
+            key={category.name}
+            className="category-card"
+            onClick={() => handleCategoryClick(category.name)}
           >
-            {scripts.map((script) => (
-              <div key={script._id} className="glass-card">
-                <h3 className="script-title">{script.name}</h3>
-                <p className="script-description">{script.description}</p>
-                <a
-                  href={script.downloadLink}
-                  className="download-button"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download
-                </a>
-              </div>
-            ))}
+            <div
+              className="category-image"
+              style={{ backgroundImage: `url(${category.image})` }}
+            ></div>
+            <div className="category-overlay">
+              <h2 className="category-name">{category.name}</h2>
+            </div>
           </div>
-        </section>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
