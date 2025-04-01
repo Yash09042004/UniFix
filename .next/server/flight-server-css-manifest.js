@@ -1,0 +1,14 @@
+self.__RSC_CSS_MANIFEST={
+  "cssImports": {
+    "/home/yash/UniFix/src/app/layout.tsx": [
+      "/home/yash/UniFix/node_modules/next/font/google/target.css?{\"path\":\"src/app/layout.tsx\",\"import\":\"Roboto\",\"arguments\":[{\"subsets\":[\"latin\"],\"weight\":[\"300\",\"400\",\"500\",\"700\",\"900\"],\"display\":\"swap\"}],\"variableName\":\"roboto\"}",
+      "/home/yash/UniFix/src/app/globals.css"
+    ]
+  },
+  "cssModules": {
+    "/home/yash/UniFix/src/app/page": [
+      "/home/yash/UniFix/src/app/globals.css",
+      "/home/yash/UniFix/node_modules/next/font/google/target.css?{\"path\":\"src/app/layout.tsx\",\"import\":\"Roboto\",\"arguments\":[{\"subsets\":[\"latin\"],\"weight\":[\"300\",\"400\",\"500\",\"700\",\"900\"],\"display\":\"swap\"}],\"variableName\":\"roboto\"}"
+    ]
+  }
+}
