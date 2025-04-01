@@ -1,70 +1,108 @@
+/* Home.css */
 .container {
-    background: black;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
+  background: radial-gradient(circle, #0f0f2d, #020024);
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo */
+.logo-container {
+  position: absolute;
+  top: -20pt;
+  left: 1rem;
+
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+/* Navigation Bar */
+.navbar {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1.5rem;
+  z-index: 2;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Content Box */
+.content-box {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-text {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #ff8a00;
+}
+
+/* Animated Blob */
+.animated-blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, violet, blue);
+  border-radius: 80%;
+  opacity: 0.7;
+  filter: blur(80px);
+  animation: moveBlob 20s infinite alternate ease-in-out;
+}
+
+@keyframes moveBlob {
+  0% {
+    top: 10%;
+    left: 10%;
   }
-  
-  .container::after {
-    content: "";
-    width: 100%;
-    height: 100vh;
-    background: url('https://i.imgur.com/PsjPzdO.png');
-    background-size: 200px;
-    mix-blend-mode: overlay;
-    position: absolute;
-    top: 0;
-    left: 0;
+  25% {
+    top: 20%;
+    left: 80%;
   }
-  
-  .blobs {
-    width: 60vh;
-    height: 60vh;
-    position: absolute;
+  50% {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
   }
-  
-  .blob {
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-    position: absolute;
-    background-color: #FF4D00;
-    mix-blend-mode: multiply;
-    filter: blur(80px);
+  75% {
+    top: 80%;
+    left: 20%;
   }
-  
-  /* Slower, bigger blobs */
-  .blob.a {
-    background-color: #ff9952; /* approximate "mix(#FF4D00, white, 80%)" */
-    animation: circular2 60s linear infinite;
+  100% {
+    top: 10%;
+    left: 10%;
   }
-  
-  .blob.b {
-    background-color: #ff7a26; /* approximate "mix(#FF4D00, white, 50%)" */
-    animation: circular 10s linear infinite;
-  }
-  
-  .blob.c {
-    animation: circular 20s linear infinite;
-  }
-  
-  /* Animations */
-  @keyframes circular {
-    0%   { transform: translate(0, -150px); }
-    25%  { transform: translate(150px, 0); }
-    50%  { transform: translate(0, 150px); }
-    75%  { transform: translate(-150px, 0); }
-    100% { transform: translate(0, -150px); }
-  }
-  
-  @keyframes circular2 {
-    0%   { transform: translate(0, 150px); }
-    25%  { transform: translate(-150px, 0); }
-    50%  { transform: translate(0, -150px); }
-    75%  { transform: translate(150px, 0); }
-    100% { transform: translate(0, 150px); }
-  }
+}
