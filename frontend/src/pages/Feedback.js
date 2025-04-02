@@ -11,7 +11,7 @@ const Feedback = () => {
     e.preventDefault();
     setLoading(true); // Show loader
     axios
-      .post("http://localhost:5000/api/feedback", formData)
+      .post("http://localhost:7001/api/feedback", formData)
       .then(() => {
         alert("Feedback submitted. Thank you!");
         setLoading(false); // Hide loader

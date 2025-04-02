@@ -42,11 +42,17 @@ export default function Home() {
           border: "1px solid rgba(255, 255, 255, 0.18)",
           padding: "2rem",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <h1 style={{ fontSize: "2.5rem", color: "#fff" }}>Welcome to UniFix!</h1>
+        <h1 style={{ fontSize: "8rem", color: "#fff", fontFamily: "'Poppins', sans-serif" }}>
+          UniFix
+        </h1>
+        <p style={{ fontSize: "1.5rem", color: "#fff", fontFamily: "'Roboto', sans-serif", marginTop: "1rem" }}>
+          The one-stop solution for all your issues
+        </p>
       </div>
     </div>
   );
