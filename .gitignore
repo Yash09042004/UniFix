@@ -1,3 +1,11 @@
 node_modules
 frontend/node_modules/
 backend/node_modules/
+# 
+# remote: warning: See https://gh.io/lfs for more information.
+# remote: warning: File .next/cache/webpack/client-development/0.pack is 78.53 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+# remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+# To https://github.com/Yash09042004/UniFix.git
+# 
+# add those in this gitignore
+.next/cache/webpack/client-development/0.pack

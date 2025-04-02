@@ -20,5 +20,5 @@ app.use("/api/scripts", require("./routes/scripts"));
 app.use("/api/feedback", require("./routes/feedback"));
 
 // Start Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7001
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
