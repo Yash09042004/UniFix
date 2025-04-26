@@ -21,7 +21,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="#contribute" className="navbar-link">
+          <a href="/contribute" className="navbar-link">
             Contribute
           </a>
         </li>

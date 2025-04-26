@@ -23,10 +23,12 @@ const Domains = () => {
     { name: "Game Development", image: "https://img.freepik.com/free-psd/vr-video-game-composition_1419-2358.jpg" },
     { name: "DevOps", image: "https://img.freepik.com/free-vector/isometric-devops-illustration_52683-84175.jpg" },
     { name: "Blockchain", image: "https://www.shutterstock.com/image-vector/blockchain-digital-technology-perspective-illustration-600nw-2006044007.jpg" },
+    { name: "Unsolved Issues", image: "https://img.freepik.com/free-vector/innovation-concept-illustration_114360-5848.jpg", 
+      description: "Innovative solutions to previously unsolved problems" },
   ];
 
   const particlesInit = useCallback(async (engine) => {
-    await loadFull(engine); // Correctly load the tsparticles engine
+    await loadFull(engine);
   }, []);
 
   const particlesOptions = {
@@ -76,6 +78,9 @@ const Domains = () => {
             ></div>
             <div className="category-overlay">
               <h2 className="category-name">{category.name}</h2>
+              {category.description && (
+                <p className="category-description">{category.description}</p>
+              )}
             </div>
           </div>
         ))}

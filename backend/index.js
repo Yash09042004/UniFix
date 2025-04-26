@@ -7,13 +7,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/unifix", {
+// MongoDB Atlas connection string
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://<db_username>:<db_password>@cluster0.zkumq4a.mongodb.net/unifix";
+
+// Connect to MongoDB Atlas
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("✅ MongoDB Connected Successfully"))
-.catch(err => console.log("❌ MongoDB Connection Error:", err));
+.then(() => console.log("✅ MongoDB Atlas Connected Successfully"))
+.catch(err => console.log("❌ MongoDB Atlas Connection Error:", err));
 
 // Routes
 app.use("/api/scripts", require("./routes/scripts"));

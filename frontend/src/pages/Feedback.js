@@ -6,19 +6,35 @@ import "./Feedback.css";
 const Feedback = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true); // Show loader
+    setLoading(true);
+    setSuccess(false);
+    setError("");
+    
+    // Fixed API URL
+    const apiUrl = "http://localhost:7001/api/feedback";
+    
     axios
-      .post("http://localhost:7001/api/feedback", formData)
-      .then(() => {
-        alert("Feedback submitted. Thank you!");
-        setLoading(false); // Hide loader
+      .post(apiUrl, formData)
+      .then((response) => {
+        setSuccess(true);
+        setLoading(false);
+        setFormData({ name: "", email: "", message: "" });
       })
       .catch((error) => {
         console.error("Error submitting feedback:", error);
-        setLoading(false); // Hide loader
+        
+        const errorMessage = error.response?.data?.message || 
+                            error.response?.data?.error || 
+                            error.message || 
+                            "Failed to submit feedback. Please try again.";
+                            
+        setError(errorMessage);
+        setLoading(false);
       });
   };
 
@@ -37,11 +53,15 @@ const Feedback = () => {
         </div>
         <div className="glass-card">
           <h1 className="form-title">FEEDBACK</h1>
+          {success && <div className="success-message">Feedback submitted successfully. Thank you!</div>}
+          {error && <div className="error-message">{error}</div>}
+          
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Name"
               className="form-input"
+              value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
@@ -49,12 +69,14 @@ const Feedback = () => {
               type="email"
               placeholder="Email"
               className="form-input"
+              value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
             <textarea
               placeholder="Message"
               className="form-textarea"
+              value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               required
             />

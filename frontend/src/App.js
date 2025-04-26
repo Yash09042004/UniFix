@@ -1,11 +1,12 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Domains from "./pages/Domains";
-import Feedback from "./pages/Feedback";
-import Navbar from "./components/Navbar";
-import CategoryPage from "./pages/CategoryPage";
-
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Domains from './pages/Domains';
+import Feedback from './pages/Feedback';
+import Contribute from './pages/Contribute';
+import CategoryPage from './pages/CategoryPage';
+import Navbar from './components/Navbar';
+//comments added 
 function App() {
   return (
     <Router>
@@ -13,8 +14,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/domains" element={<Domains />} />
-        <Route path="/domains/:category" element={<CategoryPage />} /> {/* Dynamic route */}
         <Route path="/feedback" element={<Feedback />} />
+        <Route path="/contribute" element={<Contribute />} />
+        <Route path="/domains/:category" element={<CategoryPage />} />
       </Routes>
     </Router>
   );
