@@ -2,7 +2,7 @@ services:
   - type: web
     name: unifix-api
     env: node
-    rootDirectory: backend
+    rootDirectory: ../bakcend
     buildCommand: npm install
     startCommand: ./render-build.sh
     envVars:
