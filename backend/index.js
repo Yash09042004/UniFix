@@ -38,9 +38,8 @@ const mongooseOptions = {
   family: 4,                     // Use IPv4
   retryWrites: true,            // Enable retry writes
   w: 'majority',                // Write concern
-  authSource: 'admin',          // Specify auth source
   ssl: true,                    // Enable SSL
-  directConnection: false       // Allow connection through mongos
+  authSource: 'admin'           // Specify auth source
 };
 
 // Function to connect to MongoDB with retry logic
