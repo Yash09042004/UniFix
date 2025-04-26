@@ -4,7 +4,14 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+// Enhanced CORS configuration for deployment
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://uni-fix.vercel.app', 'https://unifix-frontend.vercel.app'], // Add your Vercel domain here
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // MongoDB Atlas connection string
@@ -17,6 +24,11 @@ mongoose.connect(MONGODB_URI, {
 })
 .then(() => console.log("✅ MongoDB Atlas Connected Successfully"))
 .catch(err => console.log("❌ MongoDB Atlas Connection Error:", err));
+
+// Health check endpoint for Render
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'UniFix API is running' });
+});
 
 // Routes
 app.use("/api/scripts", require("./routes/scripts"));

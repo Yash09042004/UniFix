@@ -14,7 +14,7 @@ const ViewFeedback = () => {
 
   const fetchFeedback = async () => {
     try {
-      const apiUrl = "http://localhost:7001/api/feedback";
+      const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}/feedback`;
       const response = await axios.get(apiUrl);
       
       console.log("Feedback data:", response.data);

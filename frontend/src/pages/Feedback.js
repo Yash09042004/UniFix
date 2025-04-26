@@ -15,8 +15,8 @@ const Feedback = () => {
     setSuccess(false);
     setError("");
     
-    // Fixed API URL
-    const apiUrl = "http://localhost:7001/api/feedback";
+    // Use environment variable for API URL
+    const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}/feedback`;
     
     axios
       .post(apiUrl, formData)
