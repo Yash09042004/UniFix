@@ -24,8 +24,6 @@ if (!MONGODB_URI) {
 
 // MongoDB connection options
 const mongooseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   serverSelectionTimeoutMS: 30000, // Increased timeout
   socketTimeoutMS: 45000,         // Increased socket timeout
   connectTimeoutMS: 30000,        // Added connection timeout
@@ -44,6 +42,14 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
       return;
     } catch (error) {
       console.error(`❌ MongoDB Connection Attempt ${i + 1} failed:`, error);
+      
+      // Check if it's an authentication error
+      if (error.code === 8000 || error.message.includes('Authentication failed')) {
+        console.error("❌ MongoDB Authentication Error: Please check your credentials");
+        console.error("Current MongoDB URI (with credentials hidden):", MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@'));
+        process.exit(1);
+      }
+      
       if (i < retries - 1) {
         console.log(`Retrying in ${delay/1000} seconds...`);
         await new Promise(resolve => setTimeout(resolve, delay));
@@ -68,6 +74,10 @@ mongoose.connection.on('connected', () => {
 
 mongoose.connection.on('error', (err) => {
   console.error('Mongoose connection error:', err);
+  if (err.code === 8000 || err.message.includes('Authentication failed')) {
+    console.error("❌ MongoDB Authentication Error: Please check your credentials");
+    process.exit(1);
+  }
 });
 
 mongoose.connection.on('disconnected', () => {
