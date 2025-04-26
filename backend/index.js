@@ -22,14 +22,8 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-// Connect to MongoDB Atlas with improved options
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000, // Increased timeout
-  socketTimeoutMS: 45000,         // Increased socket timeout
-  family: 4                       // Use IPv4, skip trying IPv6
-})
+// Connect to MongoDB Atlas
+mongoose.connect(MONGODB_URI)
 .then(() => {
   console.log("✅ MongoDB Atlas Connected Successfully");
   console.log("MongoDB Connection State:", mongoose.connection.readyState);
@@ -76,4 +70,17 @@ app.use("/api/feedback", require("./routes/feedback"));
 
 // Start Server
 const PORT = process.env.PORT || 7001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Check if port is already in use
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Trying port ${PORT + 1}`);
+    app.listen(PORT + 1, () => {
+      console.log(`Server running on port ${PORT + 1}`);
+    });
+  } else {
+    console.error('Server error:', err);
+  }
+});
