@@ -5,11 +5,27 @@ require("dotenv").config();
 
 const app = express();
 
-// Enhanced CORS configuration for deployment - allow all origins temporarily
+// Enhanced CORS configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://unifix-frontend.vercel.app',
+  'https://unifix.vercel.app'
+];
+
 app.use(cors({
-  origin: '*', // Allow all origins for now
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
@@ -60,7 +76,8 @@ app.get('/', (req, res) => {
   const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
   res.status(200).json({ 
     message: 'UniFix API is running',
-    database: dbStatus
+    database: dbStatus,
+    allowedOrigins: allowedOrigins
   });
 });
 

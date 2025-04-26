@@ -4,48 +4,59 @@ import Loader from "../components/Loader";
 import "./Feedback.css";
 
 const Feedback = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  
-  // Directly use the Render URL
-  const apiUrl = "https://unifix-api.onrender.com/api/feedback";
 
-  const handleSubmit = (e) => {
+  // Get API URL from environment variable with fallback
+  const apiUrl = process.env.REACT_APP_API_URL 
+    ? `${process.env.REACT_APP_API_URL}/feedback`
+    : "https://unifix-api.onrender.com/api/feedback";
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     setSuccess(false);
-    setError("");
-    
-    console.log("Submitting form:", formData);
-    console.log("To API URL:", apiUrl);
-    
-    axios
-      .post(apiUrl, formData)
-      .then((response) => {
-        console.log("Submit success:", response);
+
+    try {
+      console.log("Submitting feedback to:", apiUrl);
+      const response = await axios.post(apiUrl, formData);
+      console.log("Response:", response.data);
+      
+      if (response.data.success) {
         setSuccess(true);
-        setLoading(false);
         setFormData({ name: "", email: "", message: "" });
-      })
-      .catch((error) => {
-        console.error("Error submitting feedback:", error);
-        console.error("Error details:", {
-          message: error.message,
-          status: error.response?.status,
-          data: error.response?.data,
-          config: error.config
-        });
-        
-        const errorMessage = error.response?.data?.message || 
-                            error.response?.data?.error || 
-                            error.message || 
-                            "Failed to submit feedback. Please try again.";
-                            
-        setError(errorMessage);
-        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      console.error("Error details:", {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        config: error.config,
       });
+      
+      setError(
+        error.response?.data?.message ||
+        "Failed to submit feedback. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Show loader if loading is true
@@ -71,23 +82,26 @@ const Feedback = () => {
               type="text"
               placeholder="Name"
               className="form-input"
+              name="name"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={handleChange}
               required
             />
             <input
               type="email"
               placeholder="Email"
               className="form-input"
+              name="email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={handleChange}
               required
             />
             <textarea
               placeholder="Message"
               className="form-textarea"
+              name="message"
               value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              onChange={handleChange}
               required
             />
             <button type="submit" className="form-button">
