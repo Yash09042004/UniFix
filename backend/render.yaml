@@ -7,10 +7,10 @@ services:
     startCommand: ./render-build.sh
     envVars:
       - key: MONGODB_URI
-        value: mongodb+srv://yashkiran2004:nacool@cluster0.zkumq4a.mongodb.net/unifix
+        sync: false
       - key: PORT
-        value: 10000
+        value: 10000 
       - key: REACT_APP_API_URL
-        value: https://unifix-api.onrender.com/api
+        value: https://unifix-frontend.vercel.app/api
       - key: NODE_ENV
         value: production

@@ -43,10 +43,10 @@ router.post("/", async (req, res) => {
     
     const newFeedback = new Feedback({ name, email, message });
     
-    // Set timeout for the save operation with increased timeout
+    // Set timeout for the save operation
     const savePromise = newFeedback.save();
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Feedback save operation timed out')), 30000)
+      setTimeout(() => reject(new Error('Feedback save operation timed out')), 15000)
     );
     
     const savedFeedback = await Promise.race([savePromise, timeoutPromise]);
@@ -75,15 +75,6 @@ router.post("/", async (req, res) => {
         error: "This feedback has already been submitted"
       });
     }
-
-    // Handle timeout errors
-    if (error.message.includes('timed out')) {
-      return res.status(504).json({
-        success: false,
-        message: "Operation timed out",
-        error: "The server took too long to respond. Please try again."
-      });
-    }
     
     res.status(500).json({ 
       success: false, 
@@ -106,10 +97,10 @@ router.get("/", async (req, res) => {
       });
     }
 
-    // Set timeout for the find operation with increased timeout
+    // Set timeout for the find operation
     const findPromise = Feedback.find().exec();
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Feedback find operation timed out')), 30000)
+      setTimeout(() => reject(new Error('Feedback find operation timed out')), 15000)
     );
     
     const feedback = await Promise.race([findPromise, timeoutPromise]);
@@ -121,16 +112,6 @@ router.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching feedback:", error);
-    
-    // Handle timeout errors
-    if (error.message.includes('timed out')) {
-      return res.status(504).json({
-        success: false,
-        message: "Operation timed out",
-        error: "The server took too long to respond. Please try again."
-      });
-    }
-    
     res.status(500).json({ 
       success: false, 
       message: "Error fetching feedback", 

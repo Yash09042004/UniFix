@@ -10,6 +10,6 @@
     }
   ],
   "env": {
-    "REACT_APP_API_URL": "https://unifix-api.onrender.com/"
+    "REACT_APP_API_URL": "https://unifix-api.onrender.com/api"
   }
 } 

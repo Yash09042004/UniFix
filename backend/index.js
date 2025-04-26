@@ -22,77 +22,28 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
-// Validate MongoDB URI format
-if (!MONGODB_URI.startsWith('mongodb+srv://')) {
-  console.error("❌ Invalid MongoDB URI format. Must start with 'mongodb+srv://'");
+// Connect to MongoDB Atlas with improved options
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000, // Increased timeout
+  socketTimeoutMS: 45000,         // Increased socket timeout
+  family: 4                       // Use IPv4, skip trying IPv6
+})
+.then(() => {
+  console.log("✅ MongoDB Atlas Connected Successfully");
+  console.log("MongoDB Connection State:", mongoose.connection.readyState);
+})
+.catch(err => {
+  console.log("❌ MongoDB Atlas Connection Error:");
+  console.error("Error details:", {
+    name: err.name,
+    message: err.message,
+    code: err.code,
+    stack: err.stack
+  });
   process.exit(1);
-}
-
-// MongoDB connection options
-const mongooseOptions = {
-  serverSelectionTimeoutMS: 10000,  // Increased timeout
-  socketTimeoutMS: 45000,         // Socket timeout
-  connectTimeoutMS: 10000,        // Increased connection timeout
-  maxPoolSize: 5,                // Connection pool size
-  minPoolSize: 1,                // Minimum pool size
-  family: 4,                     // Use IPv4
-  retryWrites: true,            // Enable retry writes
-  w: 'majority',                // Write concern
-  ssl: true,                    // Enable SSL
-  authSource: 'admin',          // Specify auth source
-  directConnection: false       // Allow connection through mongos
-};
-
-// Function to connect to MongoDB with retry logic
-const connectWithRetry = async (retries = 5, delay = 5000) => {
-  for (let i = 0; i < retries; i++) {
-    try {
-      console.log(`Attempting MongoDB connection (attempt ${i + 1}/${retries})...`);
-      console.log("Connecting to database: unifix");
-      console.log("Using connection string (with credentials hidden):", MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@'));
-      
-      // Log the actual connection string for debugging (remove in production)
-      console.log("Full connection string:", MONGODB_URI);
-      
-      await mongoose.connect(MONGODB_URI, mongooseOptions);
-      
-      console.log("✅ MongoDB Atlas Connected Successfully");
-      console.log("MongoDB Connection State:", mongoose.connection.readyState);
-      console.log("Connected to database:", mongoose.connection.db.databaseName);
-      return;
-    } catch (error) {
-      console.error(`❌ MongoDB Connection Attempt ${i + 1} failed:`, error);
-      
-      // Check if it's an authentication error
-      if (error.code === 8000 || error.message.includes('Authentication failed')) {
-        console.error("❌ MongoDB Authentication Error: Please check your credentials");
-        console.error("Error details:", {
-          code: error.code,
-          codeName: error.codeName,
-          message: error.message,
-          errorResponse: error.errorResponse,
-          connectionString: MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@')
-        });
-        
-        // Log the actual connection string for debugging (remove in production)
-        console.error("Actual connection string used:", MONGODB_URI);
-        
-        process.exit(1);
-      }
-      
-      if (i < retries - 1) {
-        console.log(`Retrying in ${delay/1000} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      } else {
-        console.error("❌ All MongoDB connection attempts failed");
-        process.exit(1);
-      }
-    }
-  }
-};
-
-// Connect to MongoDB with retry
-connectWithRetry();
+});
 
 // Add mongoose debug logging
 mongoose.set('debug', true);
@@ -100,40 +51,22 @@ mongoose.set('debug', true);
 // Add connection event handlers
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connected to MongoDB');
-  console.log('Database name:', mongoose.connection.db.databaseName);
 });
 
 mongoose.connection.on('error', (err) => {
   console.error('Mongoose connection error:', err);
-  if (err.code === 8000 || err.message.includes('Authentication failed')) {
-    console.error("❌ MongoDB Authentication Error: Please check your credentials");
-    console.error("Error details:", {
-      code: err.code,
-      codeName: err.codeName,
-      message: err.message,
-      errorResponse: err.errorResponse
-    });
-    process.exit(1);
-  }
 });
 
 mongoose.connection.on('disconnected', () => {
   console.log('Mongoose disconnected from MongoDB');
-  // Attempt to reconnect
-  setTimeout(() => connectWithRetry(3, 3000), 3000);
 });
 
 // Health check endpoint for Render
 app.get('/', (req, res) => {
   const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
-  const dbName = mongoose.connection.db ? mongoose.connection.db.databaseName : 'unknown';
   res.status(200).json({ 
     message: 'UniFix API is running',
-    database: {
-      status: dbStatus,
-      name: dbName
-    },
-    uptime: process.uptime()
+    database: dbStatus
   });
 });
 
@@ -142,8 +75,5 @@ app.use("/api/scripts", require("./routes/scripts"));
 app.use("/api/feedback", require("./routes/feedback"));
 
 // Start Server
-const PORT = process.env.PORT || 10000; // Changed default port to match render.yaml
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+const PORT = process.env.PORT || 7001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

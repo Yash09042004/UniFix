@@ -1,48 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Loader from "../components/Loader";
 import "./Feedback.css";
 
 const Feedback = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  
+  // Directly use the Render URL
+  const apiUrl = "https://unifix-api.onrender.com/api/feedback";
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setSuccess(false);
     setError("");
-
-    try {
-      const response = await axios.post(
-        "https://unifix-api.onrender.com/api/feedback",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status === 200) {
+    
+    console.log("Submitting form:", formData);
+    console.log("To API URL:", apiUrl);
+    
+    axios
+      .post(apiUrl, formData)
+      .then((response) => {
+        console.log("Submit success:", response);
         setSuccess(true);
+        setLoading(false);
         setFormData({ name: "", email: "", message: "" });
-      }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      setError(
-        error.response?.data?.message ||
-          "Failed to submit feedback. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
+      })
+      .catch((error) => {
+        console.error("Error submitting feedback:", error);
+        console.error("Error details:", {
+          message: error.message,
+          status: error.response?.status,
+          data: error.response?.data,
+          config: error.config
+        });
+        
+        const errorMessage = error.response?.data?.message || 
+                            error.response?.data?.error || 
+                            error.message || 
+                            "Failed to submit feedback. Please try again.";
+                            
+        setError(errorMessage);
+        setLoading(false);
+      });
   };
+
+  // Show loader if loading is true
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="feedback-page">
@@ -54,22 +63,16 @@ const Feedback = () => {
         </div>
         <div className="glass-card">
           <h1 className="form-title">FEEDBACK</h1>
-          {success && (
-            <div className="success-message">
-              Feedback submitted successfully. Thank you!
-            </div>
-          )}
+          {success && <div className="success-message">Feedback submitted successfully. Thank you!</div>}
           {error && <div className="error-message">{error}</div>}
-
+          
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Name"
               className="form-input"
               value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
             <input
@@ -77,26 +80,18 @@ const Feedback = () => {
               placeholder="Email"
               className="form-input"
               value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
             <textarea
               placeholder="Message"
               className="form-textarea"
               value={formData.message}
-              onChange={(e) =>
-                setFormData({ ...formData, message: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               required
             />
-            <button
-              type="submit"
-              className="form-button"
-              disabled={loading}
-            >
-              {loading ? "Submitting..." : "Submit"}
+            <button type="submit" className="form-button">
+              Submit
             </button>
           </form>
         </div>
