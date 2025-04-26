@@ -4,8 +4,9 @@ services:
     env: node
     buildCommand: npm install
     startCommand: npm start
+    rootDirectory: backend # Add this line
     envVars:
       - key: MONGODB_URI
         value: mongodb+srv://yash:yash@cluster0.zkumq4a.mongodb.net/unifix
       - key: PORT
-        value: 10000 
+        value: 10000
