@@ -17,13 +17,22 @@ app.use(express.json());
 // MongoDB Atlas connection string
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://<db_username>:<db_password>@cluster0.zkumq4a.mongodb.net/unifix";
 
-// Connect to MongoDB Atlas
+// Connect to MongoDB Atlas with improved options
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000, // Increased timeout
+  socketTimeoutMS: 45000,         // Increased socket timeout
+  family: 4                       // Use IPv4, skip trying IPv6
 })
 .then(() => console.log("✅ MongoDB Atlas Connected Successfully"))
-.catch(err => console.log("❌ MongoDB Atlas Connection Error:", err));
+.catch(err => {
+  console.log("❌ MongoDB Atlas Connection Error:");
+  console.error(err);
+});
+
+// Add mongoose debug logging
+mongoose.set('debug', true);
 
 // Health check endpoint for Render
 app.get('/', (req, res) => {

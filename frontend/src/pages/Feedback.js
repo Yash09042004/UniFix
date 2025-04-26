@@ -12,13 +12,15 @@ const Feedback = () => {
 
   // Debug effect to check environment variables
   useEffect(() => {
-    const url = `${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}/feedback`;
+    // Fixed URL formation - don't append /feedback twice
+    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:7001/api';
+    const url = `${baseUrl}/feedback`;
     setApiUrl(url);
-    console.log("API URL:", url);
-    console.log("Environment variables:", process.env);
+    console.log("Base API URL:", baseUrl);
+    console.log("Feedback API URL:", url);
     
-    // Test API connectivity
-    fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}`)
+    // Test API connectivity to base URL only
+    fetch(baseUrl)
       .then(response => {
         console.log("API connectivity test:", response.status);
         return response.json();
@@ -40,7 +42,7 @@ const Feedback = () => {
     console.log("Submitting form:", formData);
     console.log("To API URL:", apiUrl);
     
-    // Direct URL for testing
+    // Direct URL for testing - ensure it doesn't have duplicate /feedback
     const testUrl = "https://unifix-api-odke.onrender.com/api/feedback";
     console.log("Trying direct URL:", testUrl);
     

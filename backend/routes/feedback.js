@@ -5,6 +5,7 @@ const Feedback = require("../models/Feedback");
 // Submit feedback
 router.post("/", async (req, res) => {
   try {
+    console.log("Received feedback submission:", req.body);
     const { name, email, message } = req.body;
     
     if (!name || !email || !message) {
@@ -15,7 +16,14 @@ router.post("/", async (req, res) => {
     }
     
     const newFeedback = new Feedback({ name, email, message });
-    const savedFeedback = await newFeedback.save();
+    
+    // Set timeout for the save operation
+    const savePromise = newFeedback.save();
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Feedback save operation timed out')), 15000)
+    );
+    
+    const savedFeedback = await Promise.race([savePromise, timeoutPromise]);
     
     console.log("Feedback saved successfully:", savedFeedback);
     
@@ -29,7 +37,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: "Error saving feedback", 
-      error: error.message 
+      error: error.message || "Unknown error occurred"
     });
   }
 });
@@ -37,7 +45,14 @@ router.post("/", async (req, res) => {
 // Get all feedback
 router.get("/", async (req, res) => {
   try {
-    const feedback = await Feedback.find();
+    // Set timeout for the find operation
+    const findPromise = Feedback.find().exec();
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Feedback find operation timed out')), 15000)
+    );
+    
+    const feedback = await Promise.race([findPromise, timeoutPromise]);
+    
     res.status(200).json({
       success: true,
       count: feedback.length,
@@ -48,7 +63,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: "Error fetching feedback", 
-      error: error.message 
+      error: error.message || "Unknown error occurred"
     });
   }
 });
