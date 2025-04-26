@@ -39,7 +39,8 @@ const mongooseOptions = {
   retryWrites: true,            // Enable retry writes
   w: 'majority',                // Write concern
   ssl: true,                    // Enable SSL
-  authSource: 'admin'           // Specify auth source
+  authSource: 'admin',          // Specify auth source
+  directConnection: false       // Allow connection through mongos
 };
 
 // Function to connect to MongoDB with retry logic
@@ -49,6 +50,9 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
       console.log(`Attempting MongoDB connection (attempt ${i + 1}/${retries})...`);
       console.log("Connecting to database: unifix");
       console.log("Using connection string (with credentials hidden):", MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@'));
+      
+      // Log the actual connection string for debugging (remove in production)
+      console.log("Full connection string:", MONGODB_URI);
       
       await mongoose.connect(MONGODB_URI, mongooseOptions);
       
@@ -69,6 +73,10 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
           errorResponse: error.errorResponse,
           connectionString: MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@')
         });
+        
+        // Log the actual connection string for debugging (remove in production)
+        console.error("Actual connection string used:", MONGODB_URI);
+        
         process.exit(1);
       }
       
