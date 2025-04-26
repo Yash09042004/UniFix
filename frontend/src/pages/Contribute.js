@@ -5,27 +5,25 @@ const Contribute = () => {
   const cardRefs = useRef([]);
   
   useEffect(() => {
+    const currentRefs = cardRefs.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('slide-down');
+            entry.target.classList.add("visible");
           }
         });
       },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      }
+      { threshold: 0.1 }
     );
 
-    cardRefs.current.forEach((card) => {
-      if (card) observer.observe(card);
+    currentRefs.forEach((ref) => {
+      if (ref) observer.observe(ref);
     });
 
     return () => {
-      cardRefs.current.forEach((card) => {
-        if (card) observer.unobserve(card);
+      currentRefs.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
       });
     };
   }, []);
