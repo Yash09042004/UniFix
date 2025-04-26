@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Particles from "react-tsparticles";
-import { loadFull } from "@tsparticles/engine";
-import { loadImageShape } from "@tsparticles/shape-image";
-import { loadEmittersPlugin } from "@tsparticles/plugin-emitters";
-import { loadDestroyUpdater } from "@tsparticles/updater-destroy";
+import { loadFull } from "tsparticles";
+import { loadImageShape } from "tsparticles-shape-image";
+import { loadEmittersPlugin } from "tsparticles-plugin-emitters";
+import { loadDestroyUpdater } from "tsparticles-updater-destroy";
 import "./Domains.css";
 
 const Domains = () => {
