@@ -131,5 +131,8 @@ app.use("/api/scripts", require("./routes/scripts"));
 app.use("/api/feedback", require("./routes/feedback"));
 
 // Start Server
-const PORT = process.env.PORT || 7001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 10000; // Changed default port to match render.yaml
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
