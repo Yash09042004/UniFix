@@ -7,7 +7,7 @@ services:
     startCommand: ./render-build.sh
     envVars:
       - key: MONGODB_URI
-        value: mongodb+srv://nacool:nacool@cluster0.zkumq4a.mongodb.net/unifix?retryWrites=true&w=majority
+        value: mongodb+srv://yashkiran2004:nacool@cluster0.zkumq4a.mongodb.net/unifix?retryWrites=true&w=majority&authSource=admin
       - key: PORT
         value: 10000
       - key: REACT_APP_API_URL
