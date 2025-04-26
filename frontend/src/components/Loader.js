@@ -3,10 +3,9 @@ import "./Loader.css";
 
 const Loader = () => {
   return (
-    <section className="loader-container">
-      <div className="square"></div>
-      <div className="infinite-scroll"></div>
-    </section>
+    <div className="loader-container">
+      <div className="loader"></div>
+    </div>
   );
 };
 

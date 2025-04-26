@@ -6,6 +6,13 @@ const mongoose = require("mongoose");
 // Submit feedback
 router.post("/", async (req, res) => {
   try {
+    console.log("Received feedback request:", {
+      headers: req.headers,
+      body: req.body,
+      method: req.method,
+      url: req.url
+    });
+
     // Check MongoDB connection
     if (mongoose.connection.readyState !== 1) {
       console.error("MongoDB is not connected. Current state:", mongoose.connection.readyState);
@@ -16,7 +23,6 @@ router.post("/", async (req, res) => {
       });
     }
 
-    console.log("Received feedback submission:", req.body);
     const { name, email, message } = req.body;
     
     // Validate input
@@ -88,6 +94,12 @@ router.post("/", async (req, res) => {
 // Get all feedback
 router.get("/", async (req, res) => {
   try {
+    console.log("Received feedback fetch request:", {
+      headers: req.headers,
+      method: req.method,
+      url: req.url
+    });
+
     // Check MongoDB connection
     if (mongoose.connection.readyState !== 1) {
       return res.status(503).json({ 
