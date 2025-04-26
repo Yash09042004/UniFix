@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
 import "./Feedback.css";
@@ -8,6 +8,28 @@ const Feedback = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [apiUrl, setApiUrl] = useState("");
+
+  // Debug effect to check environment variables
+  useEffect(() => {
+    const url = `${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}/feedback`;
+    setApiUrl(url);
+    console.log("API URL:", url);
+    console.log("Environment variables:", process.env);
+    
+    // Test API connectivity
+    fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}`)
+      .then(response => {
+        console.log("API connectivity test:", response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log("API response:", data);
+      })
+      .catch(err => {
+        console.error("API connectivity error:", err);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,18 +37,29 @@ const Feedback = () => {
     setSuccess(false);
     setError("");
     
-    // Use environment variable for API URL
-    const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:7001/api'}/feedback`;
+    console.log("Submitting form:", formData);
+    console.log("To API URL:", apiUrl);
+    
+    // Direct URL for testing
+    const testUrl = "https://unifix-api-odke.onrender.com/api/feedback";
+    console.log("Trying direct URL:", testUrl);
     
     axios
-      .post(apiUrl, formData)
+      .post(testUrl, formData)
       .then((response) => {
+        console.log("Submit success:", response);
         setSuccess(true);
         setLoading(false);
         setFormData({ name: "", email: "", message: "" });
       })
       .catch((error) => {
         console.error("Error submitting feedback:", error);
+        console.error("Error details:", {
+          message: error.message,
+          status: error.response?.status,
+          data: error.response?.data,
+          config: error.config
+        });
         
         const errorMessage = error.response?.data?.message || 
                             error.response?.data?.error || 
@@ -55,6 +88,9 @@ const Feedback = () => {
           <h1 className="form-title">FEEDBACK</h1>
           {success && <div className="success-message">Feedback submitted successfully. Thank you!</div>}
           {error && <div className="error-message">{error}</div>}
+          <div className="debug-info">
+            <small>API URL: {apiUrl}</small>
+          </div>
           
           <form onSubmit={handleSubmit}>
             <input

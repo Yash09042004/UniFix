@@ -5,9 +5,9 @@ require("dotenv").config();
 
 const app = express();
 
-// Enhanced CORS configuration for deployment
+// Enhanced CORS configuration for deployment - allow all origins temporarily
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://uni-fix.vercel.app', 'https://unifix-frontend.vercel.app'], // Add your Vercel domain here
+  origin: '*', // Allow all origins for now
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
