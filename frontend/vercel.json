@@ -9,6 +9,16 @@
       }
     }
   ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://unifix-api.onrender.com/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
   "env": {
     "REACT_APP_API_URL": "https://unifix-api.onrender.com/api"
   }
