@@ -1,7 +1,11 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
+const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
+const feedbackRoutes = require("./routes/feedback");
+
+dotenv.config();
 
 const app = express();
 
@@ -28,24 +32,31 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// Body parser middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// MongoDB Atlas connection string
-const MONGODB_URI = process.env.MONGODB_URI;
+// MongoDB connection
+const mongoURI = process.env.MONGODB_URI || "mongodb+srv://yash09042004:yash09042004@cluster0.8j0jq.mongodb.net/unifix?retryWrites=true&w=majority";
 
-if (!MONGODB_URI) {
+if (!mongoURI) {
   console.error("❌ MongoDB URI is not defined in environment variables");
   process.exit(1);
 }
 
 // Connect to MongoDB Atlas
-mongoose.connect(MONGODB_URI)
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+})
 .then(() => {
-  console.log("✅ MongoDB Atlas Connected Successfully");
+  console.log("✅ MongoDB Connected Successfully");
   console.log("MongoDB Connection State:", mongoose.connection.readyState);
 })
 .catch(err => {
-  console.log("❌ MongoDB Atlas Connection Error:");
+  console.log("❌ MongoDB Connection Error:");
   console.error("Error details:", {
     name: err.name,
     message: err.message,
@@ -83,7 +94,7 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use("/api/scripts", require("./routes/scripts"));
-app.use("/api/feedback", require("./routes/feedback"));
+app.use("/api/feedback", feedbackRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 7001;

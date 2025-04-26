@@ -34,7 +34,12 @@ const Feedback = () => {
 
     try {
       console.log("Submitting feedback to:", apiUrl);
-      const response = await axios.post(apiUrl, formData);
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
       console.log("Response:", response.data);
       
       if (response.data.success) {
