@@ -8,30 +8,9 @@ const Feedback = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [apiUrl, setApiUrl] = useState("");
-
-  // Debug effect to check environment variables
-  useEffect(() => {
-    // Fixed URL formation - don't append /feedback twice
-    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:7001/api';
-    const url = `${baseUrl}/feedback`;
-    setApiUrl(url);
-    console.log("Base API URL:", baseUrl);
-    console.log("Feedback API URL:", url);
-    
-    // Test API connectivity to base URL only
-    fetch(baseUrl)
-      .then(response => {
-        console.log("API connectivity test:", response.status);
-        return response.json();
-      })
-      .then(data => {
-        console.log("API response:", data);
-      })
-      .catch(err => {
-        console.error("API connectivity error:", err);
-      });
-  }, []);
+  
+  // Directly use the Render URL
+  const apiUrl = "https://unifix-api-odke.onrender.com/api/feedback";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,12 +21,8 @@ const Feedback = () => {
     console.log("Submitting form:", formData);
     console.log("To API URL:", apiUrl);
     
-    // Direct URL for testing - ensure it doesn't have duplicate /feedback
-    const testUrl = "https://unifix-api-odke.onrender.com/api/feedback";
-    console.log("Trying direct URL:", testUrl);
-    
     axios
-      .post(testUrl, formData)
+      .post(apiUrl, formData)
       .then((response) => {
         console.log("Submit success:", response);
         setSuccess(true);
@@ -90,9 +65,6 @@ const Feedback = () => {
           <h1 className="form-title">FEEDBACK</h1>
           {success && <div className="success-message">Feedback submitted successfully. Thank you!</div>}
           {error && <div className="error-message">{error}</div>}
-          <div className="debug-info">
-            <small>API URL: {apiUrl}</small>
-          </div>
           
           <form onSubmit={handleSubmit}>
             <input
