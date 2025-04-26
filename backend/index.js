@@ -30,12 +30,14 @@ if (!MONGODB_URI.startsWith('mongodb+srv://')) {
 
 // MongoDB connection options
 const mongooseOptions = {
-  serverSelectionTimeoutMS: 30000, // Increased timeout
-  socketTimeoutMS: 45000,         // Increased socket timeout
-  connectTimeoutMS: 30000,        // Added connection timeout
-  maxPoolSize: 10,               // Added connection pool size
-  minPoolSize: 5,                // Added minimum pool size
-  family: 4                      // Use IPv4, skip trying IPv6
+  serverSelectionTimeoutMS: 5000,  // Reduced timeout for faster failure
+  socketTimeoutMS: 45000,         // Socket timeout
+  connectTimeoutMS: 5000,         // Reduced connection timeout
+  maxPoolSize: 5,                // Reduced pool size
+  minPoolSize: 1,                // Minimum pool size
+  family: 4,                     // Use IPv4
+  retryWrites: true,            // Enable retry writes
+  w: 'majority'                 // Write concern
 };
 
 // Function to connect to MongoDB with retry logic
@@ -44,7 +46,10 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
     try {
       console.log(`Attempting MongoDB connection (attempt ${i + 1}/${retries})...`);
       console.log("Connecting to database: unifix");
+      console.log("Using connection string (with credentials hidden):", MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@'));
+      
       await mongoose.connect(MONGODB_URI, mongooseOptions);
+      
       console.log("✅ MongoDB Atlas Connected Successfully");
       console.log("MongoDB Connection State:", mongoose.connection.readyState);
       console.log("Connected to database:", mongoose.connection.db.databaseName);
@@ -55,7 +60,12 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
       // Check if it's an authentication error
       if (error.code === 8000 || error.message.includes('Authentication failed')) {
         console.error("❌ MongoDB Authentication Error: Please check your credentials");
-        console.error("Current MongoDB URI (with credentials hidden):", MONGODB_URI.replace(/\/\/[^@]+@/, '//****:****@'));
+        console.error("Error details:", {
+          code: error.code,
+          codeName: error.codeName,
+          message: error.message,
+          errorResponse: error.errorResponse
+        });
         process.exit(1);
       }
       
@@ -86,6 +96,12 @@ mongoose.connection.on('error', (err) => {
   console.error('Mongoose connection error:', err);
   if (err.code === 8000 || err.message.includes('Authentication failed')) {
     console.error("❌ MongoDB Authentication Error: Please check your credentials");
+    console.error("Error details:", {
+      code: err.code,
+      codeName: err.codeName,
+      message: err.message,
+      errorResponse: err.errorResponse
+    });
     process.exit(1);
   }
 });
