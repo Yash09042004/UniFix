@@ -10,7 +10,7 @@ const Feedback = () => {
   const [error, setError] = useState("");
   
   // Directly use the Render URL
-  const apiUrl = "https://unifix-api-odke.onrender.com/api/feedback";
+  const apiUrl = "https://unifix-api.onrender.com/api/feedback";
 
   const handleSubmit = (e) => {
     e.preventDefault();

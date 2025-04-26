@@ -2,13 +2,15 @@ services:
   - type: web
     name: unifix-api
     env: node
-    rootDirectory: ../bakcend
+    rootDirectory: ../backend
     buildCommand: npm install
     startCommand: ./render-build.sh
     envVars:
       - key: MONGODB_URI
-        value: mongodb+srv://yashkiran2004:nacool@cluster0.zkumq4a.mongodb.net/unifix
+        sync: false
       - key: PORT
         value: 10000 
       - key: REACT_APP_API_URL
         value: https://unifix-frontend.vercel.app/api
+      - key: NODE_ENV
+        value: production

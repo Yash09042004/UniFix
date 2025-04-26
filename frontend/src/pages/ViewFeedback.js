@@ -15,7 +15,7 @@ const ViewFeedback = () => {
   const fetchFeedback = async () => {
     try {
       // Directly use the Render URL
-      const apiUrl = "https://unifix-api-odke.onrender.com/api/feedback";
+      const apiUrl = "https://unifix-api.onrender.com/api/feedback";
       const response = await axios.get(apiUrl);
       
       console.log("Feedback data:", response.data);
