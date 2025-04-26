@@ -43,9 +43,11 @@ const connectWithRetry = async (retries = 5, delay = 5000) => {
   for (let i = 0; i < retries; i++) {
     try {
       console.log(`Attempting MongoDB connection (attempt ${i + 1}/${retries})...`);
+      console.log("Connecting to database: unifix");
       await mongoose.connect(MONGODB_URI, mongooseOptions);
       console.log("✅ MongoDB Atlas Connected Successfully");
       console.log("MongoDB Connection State:", mongoose.connection.readyState);
+      console.log("Connected to database:", mongoose.connection.db.databaseName);
       return;
     } catch (error) {
       console.error(`❌ MongoDB Connection Attempt ${i + 1} failed:`, error);
@@ -77,6 +79,7 @@ mongoose.set('debug', true);
 // Add connection event handlers
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connected to MongoDB');
+  console.log('Database name:', mongoose.connection.db.databaseName);
 });
 
 mongoose.connection.on('error', (err) => {
@@ -96,9 +99,13 @@ mongoose.connection.on('disconnected', () => {
 // Health check endpoint for Render
 app.get('/', (req, res) => {
   const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  const dbName = mongoose.connection.db ? mongoose.connection.db.databaseName : 'unknown';
   res.status(200).json({ 
     message: 'UniFix API is running',
-    database: dbStatus,
+    database: {
+      status: dbStatus,
+      name: dbName
+    },
     uptime: process.uptime()
   });
 });
