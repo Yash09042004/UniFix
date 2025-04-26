@@ -30,10 +30,10 @@ if (!MONGODB_URI.startsWith('mongodb+srv://')) {
 
 // MongoDB connection options
 const mongooseOptions = {
-  serverSelectionTimeoutMS: 5000,  // Reduced timeout for faster failure
+  serverSelectionTimeoutMS: 10000,  // Increased timeout
   socketTimeoutMS: 45000,         // Socket timeout
-  connectTimeoutMS: 5000,         // Reduced connection timeout
-  maxPoolSize: 5,                // Reduced pool size
+  connectTimeoutMS: 10000,        // Increased connection timeout
+  maxPoolSize: 5,                // Connection pool size
   minPoolSize: 1,                // Minimum pool size
   family: 4,                     // Use IPv4
   retryWrites: true,            // Enable retry writes
