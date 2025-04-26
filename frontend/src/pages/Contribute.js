@@ -34,7 +34,7 @@ const Contribute = () => {
     {
       title: 'Fork the Repository',
       description: 'Start by forking the UniFix repository to your own GitHub account. This creates a copy of the repository under your account that you can modify.',
-      code: 'git clone https://github.com/YOUR-USERNAME/UniFix.git'
+      code: 'git clone https://github.com/Yash09042004/UniFix.git'
     },
     {
       title: 'Make Changes',
