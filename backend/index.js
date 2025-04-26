@@ -22,6 +22,12 @@ if (!MONGODB_URI) {
   process.exit(1);
 }
 
+// Validate MongoDB URI format
+if (!MONGODB_URI.startsWith('mongodb+srv://')) {
+  console.error("❌ Invalid MongoDB URI format. Must start with 'mongodb+srv://'");
+  process.exit(1);
+}
+
 // MongoDB connection options
 const mongooseOptions = {
   serverSelectionTimeoutMS: 30000, // Increased timeout
@@ -36,6 +42,7 @@ const mongooseOptions = {
 const connectWithRetry = async (retries = 5, delay = 5000) => {
   for (let i = 0; i < retries; i++) {
     try {
+      console.log(`Attempting MongoDB connection (attempt ${i + 1}/${retries})...`);
       await mongoose.connect(MONGODB_URI, mongooseOptions);
       console.log("✅ MongoDB Atlas Connected Successfully");
       console.log("MongoDB Connection State:", mongoose.connection.readyState);
