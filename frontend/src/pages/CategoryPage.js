@@ -13,6 +13,7 @@ const CategoryPage = () => {
         name: "Cleanop",
         description: "Cleanop command cleans unnecessary memory and frees up space.",
         solution: "Cleans unnecessary memory and frees up space.",
+        author: "Ameya Unchagaonkar",
         downloadLink: "/scripts/cleanop.sh",
       },
       {
@@ -2048,6 +2049,12 @@ const CategoryPage = () => {
                 <div className="solution-section">
                   <h4>Solution</h4>
                   <p>{script.solution}</p>
+                </div>
+              )}
+              {script.author && (
+                <div className="author-section">
+                  <h4>Author</h4>
+                  <p>{script.author}</p>
                 </div>
               )}
               {script.innovation && (

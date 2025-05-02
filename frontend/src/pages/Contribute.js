@@ -5,28 +5,28 @@ const Contribute = () => {
   const cardRefs = useRef([]);
   
   useEffect(() => {
-    const currentRefs = cardRefs.current;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    currentRefs.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      currentRefs.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
+  const currentRefs = cardRefs.current;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("slide-down"); // <-- change here
+        }
       });
-    };
-  }, []);
+    },
+    { threshold: 0.1 }
+  );
+
+  currentRefs.forEach((ref) => {
+    if (ref) observer.observe(ref);
+  });
+
+  return () => {
+    currentRefs.forEach((ref) => {
+      if (ref) observer.unobserve(ref);
+    });
+  };
+}, []);
 
   const contributionSteps = [
     {

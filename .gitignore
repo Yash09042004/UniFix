@@ -10,6 +10,6 @@ backend/node_modules/
 # add those in this gitignore
 .next/cache/webpack/client-development/0.pack
 
-.env
-frontend/.env
-backend/.env
+# .env
+# frontend/.env
+# backend/.env
