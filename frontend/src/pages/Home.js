@@ -51,7 +51,7 @@ export default function Home() {
           UniFix
         </h1>
         <p style={{ fontSize: "1.5rem", color: "#fff", fontFamily: "'Roboto', sans-serif", marginTop: "1rem" }}>
-          The one-stop solution for all your issues
+          The one-stop solution for all your Linux-Issues
         </p>
       </div>
     </div>
