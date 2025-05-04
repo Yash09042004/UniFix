@@ -26,12 +26,14 @@ const CategoryPage = () => {
         name: "SwapCleaner",
         description: "Clears swap memory to free up system resources.",
         solution: "Clears swap memory to free up system resources.",
+        author: "Kartikey Lodhe (TY)",
         downloadLink: "/scripts/SwapCleaner.sh",
       },
       {
         name: "CacheClear",
         description: "Clears system cache to free up memory.",
         solution: "Clears system cache to free up memory.",
+        author: "Vishant Sutar (SY)",
         downloadLink: "/scripts/CacheClear.sh",
       },
       {
@@ -118,6 +120,7 @@ const CategoryPage = () => {
         name: "Lab Cleanup",
         description: "Cleans up the lab environment.",
         solution: "Cleans up the lab environment.",
+        author:"Tanmay Shingde (TY)",
         downloadLink: "/scripts/LabCleanup.sh",
       },
       {
@@ -130,7 +133,7 @@ const CategoryPage = () => {
         name: "Lab Restore",
         description: "Restores the lab environment from a backup.",
         solution: "Restores the lab environment from a backup.",
-        downloadLink: "/scripts/LabRestore.sh",
+        downloadLink: "/scripts/Lab_Restore.sh",
       },
       {
         name: "Database Backup",
