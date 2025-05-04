@@ -1,7 +1,5 @@
 #!/bin/bash
-# Auto-scaling Configuration Script
-echo "[+] Configuring Auto-scaling..."
-echo "Implementing auto-scaling, load balancing, and monitoring."
-# Add your actual auto-scaling setup commands here
-echo "[+] Auto-scaling Configuration completed."
-
+set -e
+sudo apt update && sudo apt install awscli -y
+aws configure
+echo "Example: aws autoscaling create-auto-scaling-group --cli help"
