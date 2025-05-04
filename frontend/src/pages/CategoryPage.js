@@ -1632,24 +1632,24 @@ const CategoryPage = () => {
     ],
     'unsolved issues': [
       {
-        name: "Linux Kernel Panic Recovery",
-        description: "Automated recovery from kernel panic without system reboot.",
-        solution: "Implements advanced memory dump analysis, automatic error recovery, and system state restoration. Prevents data loss during kernel panics.",
-        downloadLink: "/scripts/Kernel_Panic_Recovery.sh",
+        name: "All databases menu",
+        description: "Automated script to run all the databses.",
+        solution: "Implements all the databses and gives us the menu to run using the docker containers.",
+        downloadLink: "/scripts/All_Databse.sh",
         innovation: "Uses memory dump analysis and automatic recovery procedures"
       },
       {
         name: "Cross-Distribution Driver Compatibility",
         description: "Ensures driver compatibility across different Linux distributions.",
         solution: "Implements universal driver loading mechanism with automatic compatibility checks and fallback options.",
-        downloadLink: "/scripts/Cross_Distribution_Compatibility.sh",
+        downloadLink: "/scripts/Cross_Distribution_Driver_Compatibility.sh",
         innovation: "Implements universal driver loading mechanism"
       },
       {
         name: "Real-time System Performance Optimization",
         description: "Dynamically optimizes system performance based on workload.",
         solution: "Uses machine learning to predict and prevent performance issues, automatically adjusting system parameters.",
-        downloadLink: "/scripts/Real_Time_Optimization.sh",
+        downloadLink: "/scripts/Real_Time_System_Performance_Optimization.sh",
         innovation: "Uses machine learning to predict and prevent performance issues"
       },
       {
@@ -1677,7 +1677,7 @@ const CategoryPage = () => {
         name: "Cross-Platform Driver Compatibility",
         description: "Ensures driver compatibility across different platforms.",
         solution: "Uses universal driver abstraction layer for seamless cross-platform support.",
-        downloadLink: "/scripts/Cross_Platform_Compatibility.sh",
+        downloadLink: "/scripts/Cross_Distribution_Driver_Compatibility.sh",
         innovation: "Uses universal driver abstraction layer"
       },
       {
