@@ -1635,7 +1635,7 @@ const CategoryPage = () => {
         name: "All databases menu",
         description: "Automated script to run all the databses.",
         solution: "Implements all the databses and gives us the menu to run using the docker containers.",
-        downloadLink: "/scripts/All_Databse.sh",
+        downloadLink: "/scripts/All_Database.sh",
         innovation: "Uses memory dump analysis and automatic recovery procedures"
       },
       {
