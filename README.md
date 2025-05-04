@@ -1,4 +1,4 @@
-# 🚀 UniFix — The Campus Lab Fixer
+# 🚀 UniFix — One stop solution for Linux-issues
 
 > Your all-in-one open-source PaaS to automate dependency setups, fix lab machine issues, and streamline student-teacher workflows.
 
