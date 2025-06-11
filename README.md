@@ -45,3 +45,16 @@ unifix/
 ├── scripts/            # Core automation & CLI interface
 ├── web/                # Web platform frontend (Next.js/Vercel)
 └── README.md
+```
+
+## 🌐 Visit Us
+
+Explore the platform, try fixes, or suggest improvements:  
+🔗 [https://uni-fix.vercel.app](https://uni-fix.vercel.app)
+
+## 💡 Want to Contribute?
+
+**UniFix** is fully open-source, and we welcome all kinds of contributions — new scripts, fixes, or improvements.
+
+👉 Start contributing here: [https://uni-fix.vercel.app/contribute](https://uni-fix.vercel.app/contribute)
+
