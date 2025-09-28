@@ -1792,6 +1792,12 @@ const CategoryPage = () => {
         downloadLink: "/scripts/CI_CD_Pipeline_Setup.sh",
       },
       {
+        name: "Add Hacktoberfest Topic",
+        description: "Adds the 'hacktoberfest' topic to your GitHub repository for better discoverability.",
+        solution: "Uses GitHub CLI to add the 'hacktoberfest' topic to your repository, making it eligible for Hacktoberfest participation and more discoverable by contributors.",
+        downloadLink: "/scripts/Add_Hacktoberfest_Topic.sh",
+      },
+      {
         name: "Infrastructure as Code (Terraform)",
         description: "Creates and manages cloud infrastructure using Terraform.",
         solution: "Creates and manages cloud infrastructure using Terraform.",
