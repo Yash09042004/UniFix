@@ -10,6 +10,10 @@ backend/node_modules/
 # add those in this gitignore
 .next/cache/webpack/client-development/0.pack
 
+# Build directories
+frontend/build/
+.next/
+
 # .env
 # frontend/.env
 # backend/.env
