@@ -629,6 +629,7 @@ const CategoryPage = () => {
         name: "Network Information",
         description: "Displays detailed network information and statistics.",
         solution: "Implements network diagnostics, performance metrics, and configuration details. Provides comprehensive network insights.",
+        author: "Yash Patil",
         downloadLink: "/scripts/Network_Info.sh",
       },
       {
