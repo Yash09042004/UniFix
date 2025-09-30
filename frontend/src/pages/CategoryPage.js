@@ -626,6 +626,12 @@ const CategoryPage = () => {
     ],
     networking: [
       {
+        name: "Network Information",
+        description: "Displays detailed network information and statistics.",
+        solution: "Implements network diagnostics, performance metrics, and configuration details. Provides comprehensive network insights.",
+        downloadLink: "/scripts/Network_Info.sh",
+      },
+      {
         name: "Network Configuration",
         description: "Advanced network configuration and optimization.",
         solution: "Implements network configuration, optimization, and security. Ensures proper network operation.",
