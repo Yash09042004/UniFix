@@ -57,6 +57,7 @@ const CategoryPage = () => {
       {
         name: "LogCleaner",
         description: "Cleans up old log files to free up disk space.",
+        author: "Ameya Unchagaonkar",
         solution: "Cleans up old log files to free up disk space.",
         downloadLink: "/scripts/LogCleaner.sh",
       },
