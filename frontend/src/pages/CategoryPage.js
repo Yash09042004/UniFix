@@ -750,6 +750,13 @@ const CategoryPage = () => {
     ],
     cybersecurity: [
       {
+        name: "Password generator",
+        description: "Generates strong, random passwords.",
+        solution: "Generates strong, random passwords using a combination of letters, numbers, and special characters. Ensures password security.",
+        author: "Yash Patil",
+        downloadLink: "/scripts/Password_Generator.sh",
+      },
+      {
         name: "Check Open Ports",
         description: "Checks open ports.",
         solution: "Checks open ports.",
