@@ -57,6 +57,7 @@ const CategoryPage = () => {
       {
         name: "LogCleaner",
         description: "Cleans up old log files to free up disk space.",
+        author: "Ameya Unchagaonkar",
         solution: "Cleans up old log files to free up disk space.",
         downloadLink: "/scripts/LogCleaner.sh",
       },
@@ -630,7 +631,14 @@ const CategoryPage = () => {
         description: "Displays detailed IP configuration and network settings.",
         solution: "Implements IP configuration display, network interface details, and routing information. Provides comprehensive network insights.",
         author: "Yash Patil",
-        downloadLink: "/scripts/Show_IP.sh",  
+        downloadLink: "/scripts/Show_IP.sh",
+      },
+      {
+        name: "Network Information",
+        description: "Displays detailed network information and statistics.",
+        solution: "Implements network diagnostics, performance metrics, and configuration details. Provides comprehensive network insights.",
+        author: "Yash Patil",
+        downloadLink: "/scripts/Network_Info.sh",
       },
       {
         name: "Network Configuration",
