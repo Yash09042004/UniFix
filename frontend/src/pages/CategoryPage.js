@@ -626,6 +626,13 @@ const CategoryPage = () => {
     ],
     networking: [
       {
+        name: "Show IP Configuration",
+        description: "Displays detailed IP configuration and network settings.",
+        solution: "Implements IP configuration display, network interface details, and routing information. Provides comprehensive network insights.",
+        author: "Yash Patil",
+        downloadLink: "/scripts/Show_IP.sh",  
+      },
+      {
         name: "Network Configuration",
         description: "Advanced network configuration and optimization.",
         solution: "Implements network configuration, optimization, and security. Ensures proper network operation.",
